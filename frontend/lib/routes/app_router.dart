@@ -1,24 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../services/permission_service.dart';
+import '../services/session_service.dart';
+
+import '../widgets/app_shell.dart';
 import '../widgets/app_toast.dart';
-import '../screens/dashboard/dashboard_screen.dart';
+
+import '../screens/splash_screen.dart';
 import '../screens/login_screen.dart';
+import '../screens/not_found_screen.dart';
+import '../screens/unauthorized_screen.dart';
+import '../screens/verify/verify_screen.dart';
+
+import '../screens/Dashboard/dashboard_screen.dart';
 import '../screens/Daily Report/daily_report_dashboard.dart';
 import '../screens/members/members_screen.dart';
 import '../screens/Compliance/Compliance_Screen.dart';
 import '../screens/loan/loan_screen.dart';
 import '../screens/payments/payments_screen.dart';
-import '../screens/not_found_screen.dart';
+
+import '../screens/EMI Collection/collection_history_screen.dart';
+import '../screens/Chit Auctions/chit_auctions_screen.dart';
 import '../screens/Chit Groups/Gold_dashboard.dart';
 import '../screens/Chit Groups/chit_groups_screen.dart';
+import '../screens/Overdue EMI/overdue_recovery_queue_screen.dart';
+import '../screens/Settlements/settlements_screen.dart';
+
+import '../screens/Loan Verification/loan_verificatin.dart';
+import '../screens/Loan Customer/loan_customers_screen.dart';
+import '../screens/Loan Report/loan_portfolio_summary_screen.dart';
+
+import '../screens/Branches/branches_page.dart';
+import '../screens/Analytics/analytics_page.dart';
+import '../screens/Broadcast/broadcast_page.dart';
+import '../screens/User Manage/user_directory_page.dart';
+import '../screens/System Settings/settings_page.dart';
+import '../screens/Audit Log/audit_page.dart';
+
 import '../screens/profile/profile_screen.dart';
 import '../screens/reports/reports_screen.dart';
-import '../screens/splash_screen.dart';
-import '../screens/unauthorized_screen.dart';
-import '../screens/verify/verify_screen.dart';
-import '../services/permission_service.dart';
-import '../services/session_service.dart';
-import '../widgets/app_shell.dart';
+
 import 'app_routes.dart';
 
 class AppRouter {
@@ -63,7 +85,7 @@ class AppRouter {
           ]),
           StatefulShellBranch(routes: [
             GoRoute(
-                path: AppRoutes.verify,
+                path: AppRoutes.paymentVerifications,
                 builder: (_, __) => const VerifyScreen()),
           ]),
           StatefulShellBranch(routes: [
@@ -90,7 +112,73 @@ class AppRouter {
             GoRoute(
                 path: AppRoutes.chits,
                 builder: (_, __) => const ChitGroupsScreen()),
-          ]), // GoldDashboardScreen
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+                path: AppRoutes.auctions,
+                builder: (_, __) => const ChitAuctionsScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+                path: AppRoutes.settlements,
+                builder: (_, __) => const FinancialSettlementsScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+                path: AppRoutes.loanCustomers,
+                builder: (_, __) => const LoanCustomersScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+                path: AppRoutes.emiCollections,
+                builder: (_, __) => const CollectionHistoryScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+                path: AppRoutes.overdueEmis,
+                builder: (_, __) => const OverdueRecoveryQueueScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+                path: AppRoutes.loanVerifications,
+                builder: (_, __) => const LoanVerifyScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+                path: AppRoutes.loanReports,
+                builder: (_, __) => const LoanPortfolioScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+                path: AppRoutes.branches,
+                builder: (_, __) => const BranchesScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+                path: AppRoutes.analytics,
+                builder: (_, __) => const AnalyticsScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+                path: AppRoutes.broadcastHub,
+                builder: (_, __) => const BroadcastScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+                path: AppRoutes.userManager,
+                builder: (_, __) => const UserDirectoryPage()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+                path: AppRoutes.engineSettings,
+                builder: (_, __) => const SystemSettingsScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+                path: AppRoutes.auditControls,
+                builder: (_, __) => const AuditLogScreen()),
+          ]),
+
           StatefulShellBranch(routes: [
             GoRoute(
                 path: AppRoutes.golddash,

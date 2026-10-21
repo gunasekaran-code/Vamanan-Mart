@@ -8,6 +8,7 @@ import '../theme/app_theme.dart';
 /// worry about overflow.
 class AppPage extends StatelessWidget {
   final String title;
+  final IconData? titleIcon;
   final String? subtitle;
   final Widget? subtitleWidget;
   final List<Widget> children;
@@ -15,6 +16,7 @@ class AppPage extends StatelessWidget {
   const AppPage({
     super.key,
     required this.title,
+    this.titleIcon,
     this.subtitle,
     this.subtitleWidget,
     required this.children,
@@ -27,19 +29,36 @@ class AppPage extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w800,
-              color: AppColors.kTextDark,
-            ),
+          Row(
+            children: [
+              if (titleIcon != null) ...[
+                Icon(
+                  titleIcon,
+                  color: AppColors.kPrimary,
+                  size: 26,
+                ),
+                const SizedBox(width: 10),
+              ],
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.kTextDark,
+                  ),
+                ),
+              ),
+            ],
           ),
           if (subtitle != null) ...[
             const SizedBox(height: 4),
             Text(
               subtitle!,
-              style: const TextStyle(fontSize: 13, color: AppColors.kTextMuted),
+              style: const TextStyle(
+                fontSize: 13,
+                color: AppColors.kTextMuted,
+              ),
             ),
           ] else if (subtitleWidget != null) ...[
             const SizedBox(height: 4),

@@ -7,6 +7,7 @@ import '../../theme/app_theme.dart';
 import '../../theme/stylish_form.dart';
 import '../../widgets/app_page.dart';
 import '../../widgets/app_toast.dart';
+import '../../widgets/app_upload.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -16,97 +17,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  // Modal Sheet for Profile Picture Options
-  void _showImagePickerModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: AppColors.kSurface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 36,
-                  height: 4,
-                  margin: const EdgeInsets.only(bottom: 20),
-                  decoration: BoxDecoration(
-                    color: AppColors.kBorder,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-                const Text(
-                  'Update Profile Picture',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.kTextDark,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                ListTile(
-                  leading: const CircleAvatar(
-                    backgroundColor: AppColors.kPrimaryLight,
-                    child: Icon(Icons.camera_alt_outlined, color: AppColors.kPrimary),
-                  ),
-                  title: const Text(
-                    'Open Camera',
-                    style: TextStyle(fontWeight: FontWeight.w600, color: AppColors.kTextDark),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    ToastService.show(
-                      title: 'Camera Opened',
-                      message: 'Capturing new profile picture...',
-                      type: ToastType.info,
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: const CircleAvatar(
-                    backgroundColor: AppColors.kPrimaryLight,
-                    child: Icon(Icons.photo_library_outlined, color: AppColors.kPrimary),
-                  ),
-                  title: const Text(
-                    'Upload Image',
-                    style: TextStyle(fontWeight: FontWeight.w600, color: AppColors.kTextDark),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    ToastService.show(
-                      title: 'Image Selected',
-                      message: 'Profile picture updated successfully.',
-                      type: ToastType.success,
-                    );
-                  },
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.kTextMuted,
-                      side: const BorderSide(color: AppColors.kBorder),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Cancel'),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   // Edit Profile Dialog using stylish_form.dart
   void _showEditProfileDialog(BuildContext context, dynamic user) {
     final nameController = TextEditingController(text: user.name);
@@ -208,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               // Avatar with Crown Accent Ring & Camera Badge
               GestureDetector(
-                onTap: () => _showImagePickerModal(context),
+                onTap: () => AppUpload.showImagePickerModal(context),
                 child: Stack(
                   children: [
                     Container(

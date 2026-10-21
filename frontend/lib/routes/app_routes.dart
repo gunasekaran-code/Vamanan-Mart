@@ -27,8 +27,7 @@ class AppRoutes {
   static const String auctions = '/auctions';
   static const String settlements = '/settlements';
   static const String branchHandovers = '/branch-handovers';
-  static const String paymentVerifications =
-      '/payment-verifications';
+  static const String paymentVerifications = '/payment-verifications';
   static const String reports = '/reports';
 
   // LOAN MODULE

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import '../../theme/confirm_dialog.dart';
-import '../../theme/stylish_form.dart';
 import '../../widgets/app_page.dart';
 import '../../widgets/app_toast.dart';
+import 'member_form_screen.dart'; // Make sure this matches your new file's location
 
 class Member {
   final String id;
@@ -33,8 +33,9 @@ class MembersScreen extends StatefulWidget {
 }
 
 class _MembersScreenState extends State<MembersScreen> {
+  // Removed 'final' so we can modify the list locally
   // TODO: replace with a paginated list from GET /members.
-  final List<Member> _members = [
+  List<Member> _members = [
     const Member(
       id: '1',
       name: 'Roki',
@@ -95,25 +96,35 @@ class _MembersScreenState extends State<MembersScreen> {
     }
   }
 
-  // Updated function to handle create, edit, and error states
+  // Updated function to handle full-page navigation for create/edit
   Future<void> _openMemberForm([Member? member]) async {
-    final result = await showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return StylishForm(member: member);
-      },
+    // Push the full page onto the navigation stack
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MemberFormScreen(member: member),
+      ),
     );
 
-    // If the modal was dismissed without taking action, result will be null.
+    // If the screen was dismissed via back button without taking action, result will be null.
     if (result == null) return;
 
-    // Check the result returned by StylishForm (e.g., Navigator.pop(context, true))
-    if (result == true || result is Member) {
+    // Check if a saved Member object was returned from the form
+    if (result is Member) {
       final isNew = member == null;
       
+      // Update the local list so the UI reflects the change immediately
+      setState(() {
+        if (isNew) {
+          _members.add(result);
+        } else {
+          final index = _members.indexWhere((m) => m.id == result.id);
+          if (index != -1) {
+            _members[index] = result;
+          }
+        }
+      });
+
       ToastService.show(
         title: isNew ? 'Member Created' : 'Profile Updated',
         message: isNew 
@@ -122,11 +133,8 @@ class _MembersScreenState extends State<MembersScreen> {
         type: ToastType.success,
       );
       
-      // TODO: If `result` is a Member object, you can update your `_members` list here
-      // setState(() { ... });
-      
     } else {
-      // If the form returns something else (like an error string), handle it as an error
+      // If the form returns an error string
       ToastService.show(
         title: 'Action Failed',
         message: result is String ? result : 'An unexpected error occurred while saving.',
@@ -155,7 +163,7 @@ class _MembersScreenState extends State<MembersScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.kSuccess, // Or your specific green Color
+                  backgroundColor: AppColors.kSuccess, 
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   shape: RoundedRectangleBorder(
